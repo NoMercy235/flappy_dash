@@ -31,6 +31,9 @@ class Constants {
   static (double, double, double) pipeGapPosition = (-300, 300, 20);
   static (double, double, double) pipeGapSize = (200, 360, 20);
 
+  static double gameOverMenuSoundLevel = 0.3;
+  static Duration gameOverMenuSoundLevelFadeDuration = Duration(seconds: 1);
+
   const Constants._(); // Private constructor to prevent instantiation
 }
 
