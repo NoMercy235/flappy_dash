@@ -45,6 +45,11 @@ class _MainPageState extends State<MainPage> {
               GameWidget(game: _flappyDashGame),
               if (state.currentPlayingState == PlayingState.gameOver)
                 GameOverWidget(),
+              if (state.currentPlayingState == PlayingState.none)
+                Align(
+                  alignment: Alignment.center,
+                  child: const Text('Press to start'),
+                ),
             ],
           ),
         );
