@@ -3,6 +3,7 @@ import 'package:flappy_dash/bloc/game/game_cubit.dart';
 import 'package:flappy_dash/flappy_dash_game.dart';
 import 'package:flappy_dash/widgets/game_over.dart';
 import 'package:flappy_dash/widgets/press_to_start.dart';
+import 'package:flappy_dash/widgets/score_display.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -44,10 +45,10 @@ class _MainPageState extends State<MainPage> {
           body: Stack(
             children: [
               GameWidget(game: _flappyDashGame),
-              if (state.currentPlayingState == PlayingState.gameOver)
-                GameOverWidget(),
-              if (state.currentPlayingState == PlayingState.none)
-                PressToStart(),
+              if (state.currentPlayingState.isGameOver) GameOverWidget(),
+              if (state.currentPlayingState.isIdle) PressToStart(),
+              if (state.currentPlayingState.isPlaying)
+                ScoreDisplay(score: state.currentScore),
             ],
           ),
         );

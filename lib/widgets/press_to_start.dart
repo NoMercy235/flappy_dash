@@ -1,5 +1,6 @@
 import 'package:flappy_dash/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 class PressToStart extends StatelessWidget {
   const PressToStart({super.key});
@@ -9,15 +10,26 @@ class PressToStart extends StatelessWidget {
     return IgnorePointer(
       child: Align(
         alignment: Alignment.center,
-        child: const Text(
+        child: Text(
           'Tap to start',
           style: TextStyle(
-            color: Colors.black,
+            color: Constants.ui.colors.mainText,
             fontWeight: FontWeight.bold,
-            fontSize: Constants.fontSizeSmall,
+            fontSize: Constants.ui.fonts.sizeSmall,
+            letterSpacing: Constants.ui.fonts.letterSpacing,
           ),
         ),
-      ),
+      )
+          .animate(
+            onPlay: (ctrl) => ctrl.repeat(reverse: true),
+          )
+          .scale(
+            begin: Offset(Constants.ui.animations.scaleAnimationBegin,
+                Constants.ui.animations.scaleAnimationBegin),
+            end: Offset(Constants.ui.animations.scaleAnimationEnd,
+                Constants.ui.animations.scaleAnimationEnd),
+            duration: Constants.ui.animations.scaleAnimationDuration,
+          ),
     );
   }
 }

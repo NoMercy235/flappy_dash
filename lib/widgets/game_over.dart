@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flappy_dash/bloc/game/game_cubit.dart';
 import 'package:flappy_dash/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -10,35 +12,51 @@ class GameOverWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final gameCubit = BlocProvider.of<GameCubit>(context);
 
-    return Container(
-      color: Colors.black54,
-      child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Text(
-              'Game Over',
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: Constants.fontSize,
+    return BackdropFilter(
+      filter: ImageFilter.blur(
+        sigmaX: Constants.ui.backgroundSigmaFilter,
+        sigmaY: Constants.ui.backgroundSigmaFilter,
+      ),
+      child: Container(
+        color: Colors.black54,
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            spacing: Constants.ui.menuItemsSpacing,
+            children: [
+              Text(
+                'Game Over',
+                style: TextStyle(
+                  color: Constants.ui.colors.secondaryText,
+                  fontWeight: FontWeight.bold,
+                  fontSize: Constants.ui.fonts.sizeLarge,
+                  letterSpacing: Constants.ui.fonts.letterSpacing,
+                ),
               ),
-            ),
-            Text(
-              'Score: ${gameCubit.state.currentScore}',
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: Constants.fontSize,
+              Text(
+                'Score: ${gameCubit.state.currentScore}',
+                style: TextStyle(
+                  color: Constants.ui.colors.secondaryText,
+                  fontWeight: FontWeight.bold,
+                  fontSize: Constants.ui.fonts.sizeSmall,
+                  letterSpacing: Constants.ui.fonts.letterSpacing,
+                ),
               ),
-            ),
-            ElevatedButton(
-              child: Text("Play Again"),
-              onPressed: () {
-                gameCubit.reset();
-              },
-            ),
-          ],
+              const SizedBox(),
+              ElevatedButton(
+                child: Text(
+                  "Play Again",
+                  style: TextStyle(
+                      color: Constants.ui.colors.mainText,
+                      letterSpacing: Constants.ui.fonts.letterSpacingSmall,
+                      fontSize: Constants.ui.fonts.sizeSmall),
+                ),
+                onPressed: () {
+                  gameCubit.reset();
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

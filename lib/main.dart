@@ -1,5 +1,6 @@
 import 'package:flappy_dash/bloc/game/game_cubit.dart';
 import 'package:flappy_dash/main_page.dart';
+import 'package:flappy_dash/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -14,9 +15,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => GameCubit(),
-      child: const MaterialApp(
+      child: MaterialApp(
         title: 'Flappy Dash',
         home: MainPage(),
+        theme: ThemeData(fontFamily: Constants.ui.fonts.mainFont),
       ),
     );
   }

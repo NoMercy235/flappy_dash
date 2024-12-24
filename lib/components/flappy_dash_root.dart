@@ -16,7 +16,6 @@ class FlappyDashRootComponent extends Component
         HasCollisionDetection,
         FlameBlocReader<GameCubit, GameState> {
   late Dash _dash;
-  late TextComponent _score;
   late RandomNumberGenerator rngPipeDistance;
   late RandomNumberGenerator rngPipeGapPosition;
   late RandomNumberGenerator rngPipeGapSize;
@@ -27,11 +26,9 @@ class FlappyDashRootComponent extends Component
     _setupRngPipeDistance();
     _setupRngPipeGapPosition();
     _setupRngPipeGapSize();
-    _setupText();
     _dash = Dash();
 
     add(DashParallaxBackground());
-    // add(_clickToPlay);
 
     await add(
       FlameBlocListener<GameCubit, GameState>(
@@ -39,36 +36,17 @@ class FlappyDashRootComponent extends Component
           add(_dash);
           _dash.jump();
           generateNewPipe();
-          game.camera.viewfinder.add(_score);
         },
         listenWhen: (prevState, newState) =>
             newState.currentPlayingState == PlayingState.playing &&
             prevState.currentPlayingState != newState.currentPlayingState,
       ),
     );
-
-    await add(
-      FlameBlocListener<GameCubit, GameState>(
-        onNewState: (state) {
-          _score.removeFromParent();
-        },
-        listenWhen: (prevState, newState) =>
-            newState.currentPlayingState == PlayingState.gameOver &&
-            prevState.currentPlayingState != newState.currentPlayingState,
-      ),
-    );
-  }
-
-  @override
-  void update(double dt) {
-    _score.text = "${bloc.state.currentScore}";
-    super.update(dt);
   }
 
   void onSpaceDown() {
     switch (bloc.state.currentPlayingState) {
       case PlayingState.none:
-      case PlayingState.gameOver:
         bloc.startPlaying();
         break;
       case PlayingState.playing:
@@ -102,12 +80,5 @@ class FlappyDashRootComponent extends Component
   _setupRngPipeGapSize() {
     final (start, end, step) = Constants.pipeGapSize;
     rngPipeGapSize = RandomNumberGenerator(start: start, end: end, step: step);
-  }
-
-  _setupText() {
-    _score = TextComponent(
-      text: "${bloc.state.currentScore}",
-      position: Vector2(0, -(game.size.y / 2)),
-    );
   }
 }

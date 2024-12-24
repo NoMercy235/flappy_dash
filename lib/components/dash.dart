@@ -45,7 +45,7 @@ class Dash extends PositionComponent
   @override
   void updateForPlayable(double dt) {
     _velocity += Constants.gravity * dt;
-    position += _velocity;
+    position += _velocity * dt;
   }
 
   @override

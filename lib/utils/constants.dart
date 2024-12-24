@@ -1,18 +1,19 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flame/components.dart';
+import 'package:flutter/material.dart';
 
 class Constants {
   // Debug
-  static bool isDebugMode = true;
+  static bool isDebugMode = false;
   static bool suspendDash = false;
   static bool isGodMode = false;
   static double cameraZoomInDebug = 0.65;
 
   // Speeds
-  static Vector2 gravity = Vector2(0, 35);
-  static Vector2 jumpForce = Vector2(0, -11);
-  static const double pipeSpeed = -150;
+  static Vector2 gravity = Vector2(0, 1400);
+  static Vector2 jumpForce = Vector2(0, -500);
+  static const double pipeSpeed = -180;
   static _ParallaxSpeed parallaxSpeed = _ParallaxSpeed();
 
   // Sizes
@@ -21,10 +22,7 @@ class Constants {
   static _CamSize camSize = _CamSize();
   static _PlayerSize playerSize = _PlayerSize();
 
-  // UI
-  static const double fontSizeSmall = 28;
-  static const double fontSize = 38;
-
+  static _UI ui = _UI();
   static _Files files = _Files();
 
   static double pipeOutOfPlayXBoundary = -400;
@@ -60,4 +58,37 @@ class _Files {
 class _ParallaxSpeed {
   Vector2 baseVelocity = Vector2(1, 0);
   Vector2 velocityMultiplierDelta = Vector2(1.7, 0);
+}
+
+class _UI {
+  double backgroundSigmaFilter = 2;
+  double menuItemsSpacing = 20;
+
+  double paddingNormal = 24;
+
+  _Fonts fonts = _Fonts();
+  _Colors colors = _Colors();
+  _Animations animations = _Animations();
+}
+
+class _Fonts {
+  double letterSpacingSmall = 2;
+  double letterSpacing = 4;
+  String mainFont = 'Chewy';
+
+  double sizeSmall = 28;
+  double sizeNormal = 38;
+  double sizeLarge = 48;
+}
+
+class _Colors {
+  Color mainText = Color(0Xff2387fc);
+  Color secondaryText = Color(0xffffca00);
+  Color bgLayer = Colors.black54;
+}
+
+class _Animations {
+  double scaleAnimationBegin = 1.0;
+  double scaleAnimationEnd = 1.2;
+  Duration scaleAnimationDuration = Duration(seconds: 1);
 }
