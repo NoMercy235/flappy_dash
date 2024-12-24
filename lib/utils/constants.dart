@@ -21,6 +21,9 @@ class Constants {
   static _CamSize camSize = _CamSize();
   static _PlayerSize playerSize = _PlayerSize();
 
+  // UI
+  static const double fontSize = 38;
+
   static _Files files = _Files();
 
   static double pipeOutOfPlayXBoundary = -400;

@@ -131,8 +131,6 @@ class FlappyDashRootComponent extends Component
     await add(
       FlameBlocListener<GameCubit, GameState>(
         onNewState: (state) {
-          add(_clickToPlay);
-          _dash.removeFromParent();
           _score.removeFromParent();
         },
         listenWhen: (prevState, newState) =>
@@ -144,16 +142,6 @@ class FlappyDashRootComponent extends Component
 
   @override
   void update(double dt) {
-    // switch (bloc.state.currentPlayingState) {
-    //   case PlayingState.playing:
-    //     game.paused = false;
-    //     break;
-    //   case PlayingState.none:
-    //   case PlayingState.paused:
-    //   case PlayingState.gameOver:
-    //     // game.paused = true;
-    //     break;
-    // }
     _score.text = "${bloc.state.currentScore}";
     super.update(dt);
   }
