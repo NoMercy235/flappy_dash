@@ -13,7 +13,7 @@ class Constants {
   // Speeds
   static Vector2 gravity = Vector2(0, 1400);
   static Vector2 jumpForce = Vector2(0, -500);
-  static const double pipeSpeed = -180;
+  static const double pipeSpeed = -181;
   static _ParallaxSpeed parallaxSpeed = _ParallaxSpeed();
 
   // Sizes
