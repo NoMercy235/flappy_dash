@@ -5,6 +5,10 @@ import 'package:flame/components.dart';
 class Constants {
   static bool isDebugMode = false;
 
+  // Player Movement
+  static Vector2 gravity = Vector2(0, 35);
+  static Vector2 jumpForce = Vector2(0, -12.5);
+
   static _CamSize camSize = _CamSize();
   static _PlayerSize playerSize = _PlayerSize();
 

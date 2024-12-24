@@ -19,6 +19,8 @@ class Dash extends PositionComponent with HasDebugWatch {
 
   late Sprite _sprite;
 
+  Vector2 _velocity = Vector2.zero();
+
   @override
   FutureOr<void> onLoad() async {
     _sprite = await Sprite.load(Constants.files.dash);
@@ -26,8 +28,19 @@ class Dash extends PositionComponent with HasDebugWatch {
   }
 
   @override
+  void update(double dt) {
+    _velocity += Constants.gravity * dt;
+    position += _velocity;
+    super.update(dt);
+  }
+
+  @override
   void render(Canvas canvas) {
     _sprite.render(canvas, size: size);
     super.render(canvas);
+  }
+
+  void jump() {
+    _velocity = Constants.jumpForce;
   }
 }
