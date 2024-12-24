@@ -16,7 +16,7 @@ class AudioHelper {
   }
 
   void playBgAudio() async {
-    _bgSoundHandle = await _soLoud.play(_bgSource);
+    _bgSoundHandle = await _soLoud.play(_bgSource, looping: true);
     _soLoud.setProtectVoice(_bgSoundHandle!, true);
   }
 
