@@ -21,6 +21,8 @@ class FlappyDashGame extends FlameGame<FlappyDashWorld> with KeyboardEvents {
           ),
         );
 
+  int score = 0;
+
   @override
   FutureOr<void> onLoad() {
     if (Constants.isDebugMode) {
@@ -51,18 +53,19 @@ class FlappyDashGame extends FlameGame<FlappyDashWorld> with KeyboardEvents {
   }
 
   void handlePlayerPassedPipePair() {
+    score++;
     world.generateNewPipe();
   }
 
   void handlePlayerDead() {
     paused = true;
-    // TODO: use game.camera.viewfinder.zoom = 0.2 when dying.
-    world.generateNewPipe();
   }
 }
 
-class FlappyDashWorld extends World with TapCallbacks, HasCollisionDetection {
-  late Dash dash;
+class FlappyDashWorld extends World
+    with TapCallbacks, HasCollisionDetection, HasGameRef<FlappyDashGame> {
+  late Dash _dash;
+  late TextComponent _score;
   late RandomNumberGenerator rngPipeDistance;
   late RandomNumberGenerator rngPipeGapPosition;
   late RandomNumberGenerator rngPipeGapSize;
@@ -72,10 +75,10 @@ class FlappyDashWorld extends World with TapCallbacks, HasCollisionDetection {
     _setupRngPipeDistance();
     _setupRngPipeGapPosition();
     _setupRngPipeGapSize();
-    dash = Dash();
+    _dash = Dash();
 
     add(DashParallaxBackground());
-    add(dash);
+    add(_dash);
     add(PipePair(
       position: Vector2(
         rngPipeDistance.getNumber(),
@@ -83,17 +86,30 @@ class FlappyDashWorld extends World with TapCallbacks, HasCollisionDetection {
       ),
       gap: rngPipeGapSize.getNumber(),
     ));
+
+    _score = TextComponent(
+      text: "${game.score}",
+      position: Vector2(0, -(game.size.y / 2)),
+    );
+    game.camera.viewfinder.add(_score);
+
     return super.onLoad();
   }
 
   @override
+  void update(double dt) {
+    _score.text = "${game.score}";
+    super.update(dt);
+  }
+
+  @override
   void onTapDown(TapDownEvent event) {
-    dash.jump();
+    _dash.jump();
     super.onTapDown(event);
   }
 
   void onSpaceDown() {
-    dash.jump();
+    _dash.jump();
   }
 
   void generateNewPipe() {
