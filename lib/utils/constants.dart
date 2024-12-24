@@ -3,17 +3,29 @@
 import 'package:flame/components.dart';
 
 class Constants {
-  static bool isDebugMode = false;
+  // Debug
+  static bool isDebugMode = true;
+  static bool suspendDash = false;
+  static bool isGodMode = false;
+  static double cameraZoomInDebug = 0.65;
 
-  // Player Movement
+  // Speeds
   static Vector2 gravity = Vector2(0, 35);
-  static Vector2 jumpForce = Vector2(0, -12.5);
+  static Vector2 jumpForce = Vector2(0, -11);
+  static const double pipeSpeed = -150;
+  static _ParallaxSpeed parallaxSpeed = _ParallaxSpeed();
 
+  // Sizes
+  static Vector2 pipeSize = Vector2(82, 100);
+  static double pipePairHitboxWidth = 20;
   static _CamSize camSize = _CamSize();
   static _PlayerSize playerSize = _PlayerSize();
 
   static _Files files = _Files();
-  static _ParallaxSpeed parallaxSpeed = _ParallaxSpeed();
+
+  static (double, double, double) distanceBetweenPipes = (400, 480, 10);
+  static (double, double, double) pipeGapPosition = (-300, 300, 20);
+  static (double, double, double) pipeGapSize = (200, 360, 20);
 
   const Constants._(); // Private constructor to prevent instantiation
 }
