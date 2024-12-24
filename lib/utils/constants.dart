@@ -23,6 +23,8 @@ class Constants {
 
   static _Files files = _Files();
 
+  static double pipeOutOfPlayXBoundary = -400;
+
   static (double, double, double) distanceBetweenPipes = (400, 480, 10);
   static (double, double, double) pipeGapPosition = (-300, 300, 20);
   static (double, double, double) pipeGapSize = (200, 360, 20);

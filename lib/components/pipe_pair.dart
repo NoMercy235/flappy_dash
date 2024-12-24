@@ -7,6 +7,7 @@ import 'package:flappy_dash/bloc/game/game_cubit.dart';
 import 'package:flappy_dash/components/dash.dart';
 import 'package:flappy_dash/components/pipe.dart';
 import 'package:flappy_dash/extensions/has_debug_watch.dart';
+import 'package:flappy_dash/extensions/is_playable.dart';
 import 'package:flappy_dash/flappy_dash_game.dart';
 import 'package:flappy_dash/utils/constants.dart';
 
@@ -15,7 +16,8 @@ class PipePair extends PositionComponent
         HasDebugWatch,
         CollisionCallbacks,
         HasGameRef<FlappyDashGame>,
-        FlameBlocReader<GameCubit, GameState> {
+        FlameBlocReader<GameCubit, GameState>,
+        IsPlayable {
   final double gap;
   final double speed;
   PipePair({
@@ -36,17 +38,26 @@ class PipePair extends PositionComponent
       size: Vector2(Constants.pipePairHitboxWidth, gap),
       anchor: Anchor.topCenter,
     ));
+
+    await add(
+      FlameBlocListener<GameCubit, GameState>(
+        onNewState: (state) {
+          removeFromParent();
+        },
+        listenWhen: (prevState, newState) =>
+            newState.currentPlayingState == PlayingState.playing &&
+            prevState.currentPlayingState != newState.currentPlayingState,
+      ),
+    );
   }
 
   @override
-  void update(double dt) {
+  void updateForPlayable(double dt) {
     position.x += speed * dt;
 
-    if (position.x <= -400) {
+    if (position.x <= Constants.pipeOutOfPlayXBoundary) {
       removeFromParent();
     }
-
-    super.update(dt);
   }
 
   @override

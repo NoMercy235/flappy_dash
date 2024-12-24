@@ -3,13 +3,21 @@ import 'dart:ui';
 
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flame_bloc/flame_bloc.dart';
+import 'package:flappy_dash/bloc/game/game_cubit.dart';
 import 'package:flappy_dash/extensions/has_debug_watch.dart';
+import 'package:flappy_dash/extensions/is_playable.dart';
 import 'package:flappy_dash/flappy_dash_game.dart';
 import 'package:flappy_dash/utils/constants.dart';
 
 // Could use SpriteComponent instead
 class Dash extends PositionComponent
-    with HasDebugWatch, CollisionCallbacks, HasGameRef<FlappyDashGame> {
+    with
+        HasDebugWatch,
+        CollisionCallbacks,
+        HasGameRef<FlappyDashGame>,
+        FlameBlocReader<GameCubit, GameState>,
+        IsPlayable {
   Dash()
       : super(
           position: Vector2.zero(),
@@ -25,21 +33,19 @@ class Dash extends PositionComponent
   Vector2 _velocity = Vector2.zero();
 
   @override
-  FutureOr<void> onLoad() async {
+  Future<void> onLoad() async {
+    await super.onLoad();
     _sprite = await Sprite.load(Constants.files.dash);
     add(CircleHitbox(
         position: size / 2,
         radius: Constants.playerSize.width / 2 * 0.8,
         anchor: Anchor.center));
-    return super.onLoad();
   }
 
   @override
-  void update(double dt) {
-    if (Constants.suspendDash) return;
+  void updateForPlayable(double dt) {
     _velocity += Constants.gravity * dt;
     position += _velocity;
-    super.update(dt);
   }
 
   @override
@@ -50,5 +56,10 @@ class Dash extends PositionComponent
 
   void jump() {
     _velocity = Constants.jumpForce;
+  }
+
+  void reset() {
+    position = Vector2.zero();
+    _velocity = Vector2.zero();
   }
 }

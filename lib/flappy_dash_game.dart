@@ -95,6 +95,7 @@ class FlappyDashRootComponent extends Component
         FlameBlocReader<GameCubit, GameState> {
   late Dash _dash;
   late TextComponent _score;
+  late TextComponent _clickToPlay;
   late RandomNumberGenerator rngPipeDistance;
   late RandomNumberGenerator rngPipeGapPosition;
   late RandomNumberGenerator rngPipeGapSize;
@@ -105,42 +106,69 @@ class FlappyDashRootComponent extends Component
     _setupRngPipeDistance();
     _setupRngPipeGapPosition();
     _setupRngPipeGapSize();
+    _setupText();
     _dash = Dash();
 
     add(DashParallaxBackground());
-    add(_dash);
-    add(PipePair(
-      position: Vector2(
-        rngPipeDistance.getNumber(),
-        rngPipeGapPosition.getNumber(),
-      ),
-      gap: rngPipeGapSize.getNumber(),
-    ));
+    add(_clickToPlay);
 
-    _score = TextComponent(
-      text: "${bloc.state.currentScore}",
-      position: Vector2(0, -(game.size.y / 2)),
+    await add(
+      FlameBlocListener<GameCubit, GameState>(
+        onNewState: (state) {
+          _dash.reset();
+          add(_dash);
+          _dash.jump();
+          generateNewPipe();
+          _clickToPlay.removeFromParent();
+          game.camera.viewfinder.add(_score);
+        },
+        listenWhen: (prevState, newState) =>
+            newState.currentPlayingState == PlayingState.playing &&
+            prevState.currentPlayingState != newState.currentPlayingState,
+      ),
     );
-    game.camera.viewfinder.add(_score);
+
+    await add(
+      FlameBlocListener<GameCubit, GameState>(
+        onNewState: (state) {
+          add(_clickToPlay);
+          _dash.removeFromParent();
+          _score.removeFromParent();
+        },
+        listenWhen: (prevState, newState) =>
+            newState.currentPlayingState == PlayingState.gameOver &&
+            prevState.currentPlayingState != newState.currentPlayingState,
+      ),
+    );
   }
 
   @override
   void update(double dt) {
-    switch (bloc.state.currentPlayingState) {
-      case PlayingState.none:
-      case PlayingState.paused:
-      case PlayingState.playing:
-        break;
-      case PlayingState.gameOver:
-        game.paused = true;
-        break;
-    }
+    // switch (bloc.state.currentPlayingState) {
+    //   case PlayingState.playing:
+    //     game.paused = false;
+    //     break;
+    //   case PlayingState.none:
+    //   case PlayingState.paused:
+    //   case PlayingState.gameOver:
+    //     // game.paused = true;
+    //     break;
+    // }
     _score.text = "${bloc.state.currentScore}";
     super.update(dt);
   }
 
   void onSpaceDown() {
-    _dash.jump();
+    switch (bloc.state.currentPlayingState) {
+      case PlayingState.none:
+      case PlayingState.gameOver:
+        bloc.startPlaying();
+        break;
+      case PlayingState.playing:
+        _dash.jump();
+        break;
+      default:
+    }
   }
 
   void generateNewPipe() {
@@ -167,5 +195,18 @@ class FlappyDashRootComponent extends Component
   _setupRngPipeGapSize() {
     final (start, end, step) = Constants.pipeGapSize;
     rngPipeGapSize = RandomNumberGenerator(start: start, end: end, step: step);
+  }
+
+  _setupText() {
+    _clickToPlay = TextComponent(
+      text: "Click or press Space to start",
+      position: Vector2.zero(),
+      anchor: Anchor.center,
+    );
+
+    _score = TextComponent(
+      text: "${bloc.state.currentScore}",
+      position: Vector2(0, -(game.size.y / 2)),
+    );
   }
 }
