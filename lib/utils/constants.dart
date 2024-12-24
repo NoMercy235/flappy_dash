@@ -22,6 +22,7 @@ class Constants {
   static _PlayerSize playerSize = _PlayerSize();
 
   // UI
+  static const double fontSizeSmall = 28;
   static const double fontSize = 38;
 
   static _Files files = _Files();
