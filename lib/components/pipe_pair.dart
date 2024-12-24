@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flame_bloc/flame_bloc.dart';
+import 'package:flappy_dash/bloc/game/game_cubit.dart';
 import 'package:flappy_dash/components/dash.dart';
 import 'package:flappy_dash/components/pipe.dart';
 import 'package:flappy_dash/extensions/has_debug_watch.dart';
@@ -9,7 +11,11 @@ import 'package:flappy_dash/flappy_dash_game.dart';
 import 'package:flappy_dash/utils/constants.dart';
 
 class PipePair extends PositionComponent
-    with HasDebugWatch, CollisionCallbacks, HasGameRef<FlappyDashGame> {
+    with
+        HasDebugWatch,
+        CollisionCallbacks,
+        HasGameRef<FlappyDashGame>,
+        FlameBlocReader<GameCubit, GameState> {
   final double gap;
   final double speed;
   PipePair({
@@ -19,7 +25,8 @@ class PipePair extends PositionComponent
   });
 
   @override
-  FutureOr<void> onLoad() {
+  Future<void> onLoad() async {
+    await super.onLoad();
     addAll([
       Pipe(position: Vector2(0, gap / 2), isFlipped: false),
       Pipe(position: Vector2(0, -(gap / 2)), isFlipped: true),
@@ -29,7 +36,6 @@ class PipePair extends PositionComponent
       size: Vector2(Constants.pipePairHitboxWidth, gap),
       anchor: Anchor.topCenter,
     ));
-    return super.onLoad();
   }
 
   @override
@@ -48,6 +54,7 @@ class PipePair extends PositionComponent
       Set<Vector2> intersectionPoints, PositionComponent other) {
     if (other is Dash) {
       game.handlePlayerPassedPipePair();
+      bloc.increaseScore();
     }
 
     super.onCollisionStart(intersectionPoints, other);

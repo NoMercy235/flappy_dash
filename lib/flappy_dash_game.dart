@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
+import 'package:flame_bloc/flame_bloc.dart';
+import 'package:flappy_dash/bloc/game/game_cubit.dart';
 import 'package:flappy_dash/components/dash.dart';
 import 'package:flappy_dash/components/dash_parallax_background.dart';
 import 'package:flappy_dash/components/pipe_pair.dart';
@@ -12,7 +14,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 class FlappyDashGame extends FlameGame<FlappyDashWorld> with KeyboardEvents {
-  FlappyDashGame()
+  GameCubit gameCubit;
+  FlappyDashGame(this.gameCubit)
       : super(
           world: FlappyDashWorld(),
           camera: CameraComponent.withFixedResolution(
@@ -20,8 +23,6 @@ class FlappyDashGame extends FlameGame<FlappyDashWorld> with KeyboardEvents {
             height: Constants.camSize.height,
           ),
         );
-
-  int score = 0;
 
   @override
   FutureOr<void> onLoad() {
@@ -53,17 +54,45 @@ class FlappyDashGame extends FlameGame<FlappyDashWorld> with KeyboardEvents {
   }
 
   void handlePlayerPassedPipePair() {
-    score++;
     world.generateNewPipe();
-  }
-
-  void handlePlayerDead() {
-    paused = true;
   }
 }
 
 class FlappyDashWorld extends World
-    with TapCallbacks, HasCollisionDetection, HasGameRef<FlappyDashGame> {
+    with TapCallbacks, HasGameRef<FlappyDashGame> {
+  late FlappyDashRootComponent _rootComponent;
+
+  @override
+  FutureOr<void> onLoad() {
+    add(FlameBlocProvider<GameCubit, GameState>(
+      create: () => game.gameCubit,
+      children: [
+        _rootComponent = FlappyDashRootComponent(),
+      ],
+    ));
+    return super.onLoad();
+  }
+
+  @override
+  void onTapDown(TapDownEvent event) {
+    _rootComponent.onSpaceDown();
+    super.onTapDown(event);
+  }
+
+  void onSpaceDown() {
+    _rootComponent.onSpaceDown();
+  }
+
+  void generateNewPipe() {
+    _rootComponent.generateNewPipe();
+  }
+}
+
+class FlappyDashRootComponent extends Component
+    with
+        HasGameRef<FlappyDashGame>,
+        HasCollisionDetection,
+        FlameBlocReader<GameCubit, GameState> {
   late Dash _dash;
   late TextComponent _score;
   late RandomNumberGenerator rngPipeDistance;
@@ -71,7 +100,8 @@ class FlappyDashWorld extends World
   late RandomNumberGenerator rngPipeGapSize;
 
   @override
-  FutureOr<void> onLoad() {
+  Future<void> onLoad() async {
+    await super.onLoad();
     _setupRngPipeDistance();
     _setupRngPipeGapPosition();
     _setupRngPipeGapSize();
@@ -88,24 +118,25 @@ class FlappyDashWorld extends World
     ));
 
     _score = TextComponent(
-      text: "${game.score}",
+      text: "${bloc.state.currentScore}",
       position: Vector2(0, -(game.size.y / 2)),
     );
     game.camera.viewfinder.add(_score);
-
-    return super.onLoad();
   }
 
   @override
   void update(double dt) {
-    _score.text = "${game.score}";
+    switch (bloc.state.currentPlayingState) {
+      case PlayingState.none:
+      case PlayingState.paused:
+      case PlayingState.playing:
+        break;
+      case PlayingState.gameOver:
+        game.paused = true;
+        break;
+    }
+    _score.text = "${bloc.state.currentScore}";
     super.update(dt);
-  }
-
-  @override
-  void onTapDown(TapDownEvent event) {
-    _dash.jump();
-    super.onTapDown(event);
   }
 
   void onSpaceDown() {
