@@ -22,6 +22,7 @@ class Constants {
   static _CamSize camSize = _CamSize();
   static _PlayerSize playerSize = _PlayerSize();
 
+  static _User user = _User();
   static _UI ui = _UI();
   static _Files files = _Files();
 
@@ -31,7 +32,7 @@ class Constants {
   static (double, double, double) pipeGapPosition = (-300, 300, 20);
   static (double, double, double) pipeGapSize = (200, 360, 20);
 
-  static double gameOverMenuSoundLevel = 0.3;
+  static double gameOverMenuSoundLevel = 0.05;
   static Duration gameOverMenuSoundLevelFadeDuration = Duration(seconds: 1);
 
   const Constants._(); // Private constructor to prevent instantiation
@@ -94,4 +95,15 @@ class _Animations {
   double scaleAnimationBegin = 1.0;
   double scaleAnimationEnd = 1.2;
   Duration scaleAnimationDuration = Duration(seconds: 1);
+}
+
+class _User {
+  String host = '212.237.26.52';
+
+  String deviceId = 'test-device-id';
+  String username = 'NoMercy235_Test';
+
+  String serverKey = 'defaultkey';
+
+  String groupName = 'Flutter devs';
 }
