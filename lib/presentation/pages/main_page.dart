@@ -1,9 +1,9 @@
 import 'package:flame/game.dart';
-import 'package:flappy_dash/bloc/game/game_cubit.dart';
-import 'package:flappy_dash/flappy_dash_game.dart';
-import 'package:flappy_dash/widgets/game_over.dart';
-import 'package:flappy_dash/widgets/press_to_start.dart';
-import 'package:flappy_dash/widgets/score_display.dart';
+import 'package:flappy_dash/presentation/bloc/game/game_cubit.dart';
+import 'package:flappy_dash/presentation/flappy_dash_game.dart';
+import 'package:flappy_dash/presentation/widgets/game_over.dart';
+import 'package:flappy_dash/presentation/widgets/press_to_start.dart';
+import 'package:flappy_dash/presentation/widgets/score_display.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

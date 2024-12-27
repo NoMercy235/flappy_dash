@@ -54,11 +54,6 @@ class GameCubit extends Cubit<GameState> {
       username: Constants.user.username,
     );
 
-    final group = await client.createGroup(
-      session: session,
-      name: Constants.user.groupName,
-    );
-
-    print('group is: ${group.name}');
+    print('Session is: ${session.token}');
   }
 }

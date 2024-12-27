@@ -1,5 +1,5 @@
-import 'package:flappy_dash/bloc/game/game_cubit.dart';
-import 'package:flappy_dash/main_page.dart';
+import 'package:flappy_dash/presentation/bloc/game/game_cubit.dart';
+import 'package:flappy_dash/presentation/pages/main_page.dart';
 import 'package:flappy_dash/utils/audio_helper.dart';
 import 'package:flappy_dash/utils/constants.dart';
 import 'package:flappy_dash/utils/service_locator.dart';

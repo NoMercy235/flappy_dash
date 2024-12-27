@@ -2,11 +2,11 @@ import 'dart:async';
 
 import 'package:flame/components.dart';
 import 'package:flame_bloc/flame_bloc.dart';
-import 'package:flappy_dash/bloc/game/game_cubit.dart';
-import 'package:flappy_dash/components/dash.dart';
-import 'package:flappy_dash/components/dash_parallax_background.dart';
-import 'package:flappy_dash/components/pipe_pair.dart';
-import 'package:flappy_dash/flappy_dash_game.dart';
+import 'package:flappy_dash/presentation/bloc/game/game_cubit.dart';
+import 'package:flappy_dash/presentation/components/dash.dart';
+import 'package:flappy_dash/presentation/components/dash_parallax_background.dart';
+import 'package:flappy_dash/presentation/components/pipe_pair.dart';
+import 'package:flappy_dash/presentation/flappy_dash_game.dart';
 import 'package:flappy_dash/utils/constants.dart';
 import 'package:flappy_dash/utils/random_number_generator.dart';
 

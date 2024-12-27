@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flame/components.dart';
 import 'package:flame/parallax.dart';
-import 'package:flappy_dash/flappy_dash_game.dart';
+import 'package:flappy_dash/presentation/flappy_dash_game.dart';
 import 'package:flappy_dash/utils/constants.dart';
 
 class DashParallaxBackground extends ParallaxComponent<FlappyDashGame> {

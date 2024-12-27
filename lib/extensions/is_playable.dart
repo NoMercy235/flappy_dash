@@ -1,6 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:flame_bloc/flame_bloc.dart';
-import 'package:flappy_dash/bloc/game/game_cubit.dart';
+import 'package:flappy_dash/presentation/bloc/game/game_cubit.dart';
 
 mixin IsPlayable on FlameBlocReader<GameCubit, GameState>, Component {
   @override
