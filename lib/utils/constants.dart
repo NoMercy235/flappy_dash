@@ -57,6 +57,9 @@ class _Files {
   String layer5HugeClouds = 'background/layer5-huge-clouds.png';
   String layer6Bushes = 'background/layer6-bushes.png';
   String layer7Bushes = 'background/layer7-bushes.png';
+
+  String icProfile = 'assets/icons/ic_profile.svg';
+  String icTrophy = 'assets/icons/ic_trophy.svg';
 }
 
 class _ParallaxSpeed {
@@ -68,11 +71,15 @@ class _UI {
   double backgroundSigmaFilter = 2;
   double menuItemsSpacing = 20;
 
+  double paddingXxs = 8;
+  double paddingSmall = 16;
   double paddingNormal = 24;
+  double boxBorderRadius = 16;
 
   _Fonts fonts = _Fonts();
   _Colors colors = _Colors();
   _Animations animations = _Animations();
+  _UISizes sizes = _UISizes();
 }
 
 class _Fonts {
@@ -80,15 +87,26 @@ class _Fonts {
   double letterSpacing = 4;
   String mainFont = 'Chewy';
 
+  double sizeXxs = 18;
   double sizeSmall = 28;
   double sizeNormal = 38;
   double sizeLarge = 48;
 }
 
 class _Colors {
-  Color mainText = Color(0Xff2387fc);
+  // Color mainText = Color(0Xff2387fc);
+  Color mainText = Color(0Xff00fbff);
   Color secondaryText = Color(0xffffca00);
-  Color bgLayer = Colors.black54;
+  Color menuLayer = Colors.black54;
+  Color bgColor = Color(0xff0f8b8d);
+  Color boxBgColor = Color(0x66000000);
+
+  Color trophyGoldBgColor = Color(0xFFFFD700);
+  Color trophyGoldTextColor = Color(0xFF1C1B1F);
+  Color trophySilverBgColor = Color(0xFFC0C0C0);
+  Color trophySilverTextColor = Color(0xFF1C1B1F);
+  Color trophyBronzeBgColor = Color(0xFFCD7F32);
+  Color trophyBronzeTextColor = Color(0xFF1C1B1F);
 }
 
 class _Animations {
@@ -106,4 +124,15 @@ class _User {
   String serverKey = 'defaultkey';
 
   String groupName = 'Flutter devs';
+}
+
+class _UISizes {
+  double iconHeight = 32;
+  double iconWidth = 32;
+
+  EdgeInsets boxOverlayPadding = EdgeInsets.symmetric(
+    horizontal: 18,
+    vertical: 8,
+  );
+  Alignment trophyNrAlignment = Alignment(0, -0.7);
 }

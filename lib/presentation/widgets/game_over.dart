@@ -24,38 +24,62 @@ class GameOverWidget extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             spacing: Constants.ui.menuItemsSpacing,
             children: [
-              Text(
-                'Game Over',
-                style: TextStyle(
-                  color: Constants.ui.colors.secondaryText,
-                  fontWeight: FontWeight.bold,
-                  fontSize: Constants.ui.fonts.sizeLarge,
-                  letterSpacing: Constants.ui.fonts.letterSpacing,
-                ),
-              ),
-              Text(
-                'Score: ${gameCubit.state.currentScore}',
-                style: TextStyle(
-                  color: Constants.ui.colors.secondaryText,
-                  fontWeight: FontWeight.bold,
-                  fontSize: Constants.ui.fonts.sizeSmall,
-                  letterSpacing: Constants.ui.fonts.letterSpacing,
-                ),
-              ),
+              GameOver(),
+              Score(score: gameCubit.state.currentScore),
               const SizedBox(),
-              ElevatedButton(
-                child: Text(
-                  "Play Again",
-                  style: TextStyle(
-                      color: Constants.ui.colors.mainText,
-                      letterSpacing: Constants.ui.fonts.letterSpacingSmall,
-                      fontSize: Constants.ui.fonts.sizeSmall),
-                ),
-                onPressed: () {
-                  gameCubit.reset();
-                },
-              ),
+              PlayAgainBtn(onPressed: () => gameCubit.reset()),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget GameOver() {
+    return Text(
+      'Game Over',
+      style: TextStyle(
+        color: Constants.ui.colors.secondaryText,
+        fontWeight: FontWeight.bold,
+        fontSize: Constants.ui.fonts.sizeLarge,
+        letterSpacing: Constants.ui.fonts.letterSpacing,
+      ),
+    );
+  }
+
+  Widget Score({int score = 0}) {
+    return Text(
+      'Score: $score',
+      style: TextStyle(
+        color: Constants.ui.colors.secondaryText,
+        fontWeight: FontWeight.bold,
+        fontSize: Constants.ui.fonts.sizeSmall,
+        letterSpacing: Constants.ui.fonts.letterSpacing,
+      ),
+    );
+  }
+
+  Widget PlayAgainBtn({required Function() onPressed}) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Constants.ui.colors.boxBgColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(Constants.ui.boxBorderRadius),
+          ),
+        ),
+      ),
+      onPressed: onPressed,
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          vertical: Constants.ui.paddingXxs,
+        ),
+        child: Text(
+          "Play Again",
+          style: TextStyle(
+            color: Constants.ui.colors.mainText,
+            letterSpacing: Constants.ui.fonts.letterSpacingSmall,
+            fontSize: Constants.ui.fonts.sizeSmall,
           ),
         ),
       ),

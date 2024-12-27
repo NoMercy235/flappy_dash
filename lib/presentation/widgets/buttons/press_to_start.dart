@@ -1,3 +1,4 @@
+import 'package:flappy_dash/presentation/widgets/common/box_overlay.dart';
 import 'package:flappy_dash/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -10,13 +11,15 @@ class PressToStart extends StatelessWidget {
     return IgnorePointer(
       child: Align(
         alignment: Alignment.center,
-        child: Text(
-          'Tap to start',
-          style: TextStyle(
-            color: Constants.ui.colors.mainText,
-            fontWeight: FontWeight.bold,
-            fontSize: Constants.ui.fonts.sizeSmall,
-            letterSpacing: Constants.ui.fonts.letterSpacing,
+        child: BoxOverlay(
+          child: Text(
+            'Tap to start',
+            style: TextStyle(
+              color: Constants.ui.colors.mainText,
+              fontWeight: FontWeight.bold,
+              fontSize: Constants.ui.fonts.sizeSmall,
+              letterSpacing: Constants.ui.fonts.letterSpacing,
+            ),
           ),
         ),
       )
