@@ -1,3 +1,4 @@
+import 'package:flappy_dash/presentation/dialogs/app_dialog.dart';
 import 'package:flappy_dash/presentation/widgets/common/trophy.dart';
 import 'package:flappy_dash/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -91,6 +92,7 @@ class LeaderBoardRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RowWrapper(
+      context: context,
       child: Container(
         color: isMine ? Colors.white10 : Colors.transparent,
         padding: EdgeInsets.symmetric(
@@ -134,12 +136,12 @@ class LeaderBoardRow extends StatelessWidget {
     );
   }
 
-  Widget RowWrapper({required Widget child}) {
+  Widget RowWrapper({required BuildContext context, required Widget child}) {
     return isMine
         ? Material(
             color: Colors.transparent,
             child: InkWell(
-              onTap: () {},
+              onTap: () => AppDialog.showNicknamePicker(context),
               child: child,
             ),
           )

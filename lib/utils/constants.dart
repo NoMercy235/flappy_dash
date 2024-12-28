@@ -141,6 +141,11 @@ class _UISizes {
   double iconHeight = 32;
   double iconWidth = 32;
 
+  double spacingSmall = 16;
+  double spacingNormal = 24;
+
+  double nicknameSaveBtnWidth = 240;
+
   double dialogWidth = 400;
 
   double shadowWidth = 4;
