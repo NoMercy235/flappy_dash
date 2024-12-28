@@ -9,6 +9,7 @@ class ProfileBtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MenuBtnBase(
+      onTap: () {},
       children: [
         SvgPicture.asset(
           Constants.files.icProfile,

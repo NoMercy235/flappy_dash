@@ -60,6 +60,7 @@ class _Files {
 
   String icProfile = 'assets/icons/ic_profile.svg';
   String icTrophy = 'assets/icons/ic_trophy.svg';
+  String icClose = 'assets/icons/ic_close.svg';
 }
 
 class _ParallaxSpeed {
@@ -80,6 +81,12 @@ class _UI {
   _Colors colors = _Colors();
   _Animations animations = _Animations();
   _UISizes sizes = _UISizes();
+
+  BoxShadow leaderBoardBoxShadow = BoxShadow(
+    color: Colors.black,
+    spreadRadius: 0.1,
+    offset: Offset(0, 4),
+  );
 }
 
 class _Fonts {
@@ -94,12 +101,16 @@ class _Fonts {
 }
 
 class _Colors {
-  // Color mainText = Color(0Xff2387fc);
   Color mainText = Color(0Xff00fbff);
   Color secondaryText = Color(0xffffca00);
+  Color whiteTextHighlighted = Color(0xfff1f1f1);
+  Color whiteText = Color(0xffdad2d8);
+
   Color menuLayer = Colors.black54;
+
   Color bgColor = Color(0xff0f8b8d);
   Color boxBgColor = Color(0x66000000);
+  Color dialogBgColor = Color(0xff16425b);
 
   Color trophyGoldBgColor = Color(0xFFFFD700);
   Color trophyGoldTextColor = Color(0xFF1C1B1F);
@@ -129,6 +140,10 @@ class _User {
 class _UISizes {
   double iconHeight = 32;
   double iconWidth = 32;
+
+  double dialogWidth = 400;
+
+  double shadowWidth = 4;
 
   EdgeInsets boxOverlayPadding = EdgeInsets.symmetric(
     horizontal: 18,
