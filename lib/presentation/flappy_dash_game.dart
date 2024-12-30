@@ -63,7 +63,6 @@ class FlappyDashWorld extends World
 
   @override
   FutureOr<void> onLoad() async {
-    await getIt.get<AudioHelper>().initialize();
     getIt.get<AudioHelper>().playBgAudio();
 
     add(FlameBlocProvider<GameCubit, GameState>(

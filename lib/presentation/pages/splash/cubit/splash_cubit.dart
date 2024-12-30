@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flappy_dash/domain/repositories/game_repository.dart';
+import 'package:flappy_dash/utils/audio_helper.dart';
+import 'package:flappy_dash/utils/service_locator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'splash_state.dart';
@@ -15,7 +17,7 @@ class SplashCubit extends Cubit<SplashState> {
   void onPageOpen() async {
     try {
       final startTime = DateTime.now();
-      await _gameRepository.initSession();
+      await _initialize();
       final endTime = DateTime.now();
       final difference = endTime.difference(startTime);
       if (difference < _splashDuration) {
@@ -25,6 +27,11 @@ class SplashCubit extends Cubit<SplashState> {
     } catch (e, stack) {
       print('error: $e, $stack');
     }
+  }
+
+  Future<void> _initialize() async {
+    await _gameRepository.initSession();
+    await getIt.get<AudioHelper>().initialize();
   }
 
   void _openHomePage() async {
