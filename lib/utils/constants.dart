@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:flame/components.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class Constants {
@@ -135,11 +136,15 @@ class _Animations {
 class _User {
   int maxDisplayNameLength = 12;
 
-  String host = Platform.environment['NAKAMA_SERVER_HOST'] ?? '127.0.0.1';
+  String host = kIsWeb
+      ? '212.237.26.52'
+      : Platform.environment['NAKAMA_SERVER_HOST'] ?? '127.0.0.1';
 
   String deviceId = 'test-device-id';
 
-  String serverKey = Platform.environment['NAKAMA_SERVER_KEY'] ?? 'defaultkey';
+  String serverKey = kIsWeb
+      ? 'defaultkey'
+      : Platform.environment['NAKAMA_SERVER_KEY'] ?? 'defaultkey';
 
   String leaderboardName = 'main_leaderboard';
   String groupName = 'Flutter devs';
