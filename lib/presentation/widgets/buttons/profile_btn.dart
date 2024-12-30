@@ -1,5 +1,6 @@
 import 'package:flappy_dash/domain/extensions/string.dart';
 import 'package:flappy_dash/presentation/bloc/game/game_cubit.dart';
+import 'package:flappy_dash/presentation/dialogs/app_dialog.dart';
 import 'package:flappy_dash/presentation/widgets/buttons/menu_btn_base.dart';
 import 'package:flappy_dash/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,7 @@ class ProfileBtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MenuBtnBase(
-      onTap: () {},
+      onTap: () => AppDialog.showNicknamePicker(context),
       children: [
         SvgPicture.asset(
           Constants.files.icProfile,

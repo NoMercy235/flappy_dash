@@ -1,5 +1,6 @@
 import 'package:flappy_dash/domain/extensions/user.dart';
 import 'package:flappy_dash/presentation/bloc/game/game_cubit.dart';
+import 'package:flappy_dash/presentation/widgets/buttons/async_btn.dart';
 import 'package:flappy_dash/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -45,11 +46,10 @@ class _NicknameDialogState extends State<NicknameDialog> {
             SizedBox(height: Constants.ui.sizes.spacingSmall),
             SizedBox(
               width: Constants.ui.sizes.nicknameSaveBtnWidth,
-              child: FilledButton.tonal(
-                onPressed: () {
-                  Navigator.of(context).pop(_textEditingController.text);
-                },
-                child: const Text('SAVE'),
+              child: AsyncButton(
+                onPressed: _onSaveClicked,
+                child: Text("SAVE"),
+                disabledColor: Colors.grey.shade400,
               ),
             ),
           ],
@@ -104,5 +104,12 @@ class _NicknameDialogState extends State<NicknameDialog> {
       ),
       boxShadow: [Constants.ui.leaderBoardBoxShadow],
     );
+  }
+
+  Future<void> _onSaveClicked() async {
+    final gameCubit = context.read<GameCubit>();
+    final newName = _textEditingController.text;
+    await gameCubit.changeDisplayName(newName);
+    Navigator.of(context).pop();
   }
 }

@@ -160,12 +160,7 @@ class LeaderBoardRow extends StatelessWidget {
         ? Material(
             color: Colors.transparent,
             child: InkWell(
-              onTap: () async {
-                final gameCubit = context.read<GameCubit>();
-                final result = await AppDialog.showNicknamePicker(context);
-                if (result == null || result.isEmpty) return;
-                gameCubit.changeDisplayName(result);
-              },
+              onTap: () => AppDialog.showNicknamePicker(context),
               child: child,
             ),
           )

@@ -52,9 +52,9 @@ class GameCubit extends Cubit<GameState> {
     await _updateLeaderboard();
   }
 
-  void changeDisplayName(String displayName) async {
+  Future changeDisplayName(String displayName) async {
     await _gameRepository.changeDisplayName(displayName);
-    await Future.delayed(const Duration(seconds: 1));
+    await Future.delayed(const Duration(milliseconds: 500));
     final account = await _gameRepository.getCurrentUserAccount();
     emit(state.copyWith(
       newUserAccount: account,
