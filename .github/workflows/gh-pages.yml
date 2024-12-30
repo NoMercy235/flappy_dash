@@ -14,3 +14,4 @@ jobs:
       - uses: bluefireteam/flutter-gh-pages@v7
         with:
           baseHref: /flappy_dash/
+          customArgs: --dart-define="NAKAMA_SERVER_KEY=${{ secrets.NAKAMA_SERVER_KEY }}"
