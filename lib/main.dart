@@ -1,3 +1,4 @@
+import 'package:flappy_dash/domain/repositories/game_repository.dart';
 import 'package:flappy_dash/presentation/bloc/game/game_cubit.dart';
 import 'package:flappy_dash/presentation/pages/splash/splash_page.dart';
 import 'package:flappy_dash/utils/audio_helper.dart';
@@ -17,7 +18,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => GameCubit(getIt.get<AudioHelper>()),
+      create: (context) => GameCubit(
+        getIt.get<AudioHelper>(),
+        getIt.get<GameRepository>(),
+      ),
       child: MaterialApp(
         title: 'Flappy Dash',
         home: SplashPage(),

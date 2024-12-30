@@ -112,6 +112,7 @@ class _Colors {
   Color whiteText = Color(0xffdad2d8);
 
   Color menuLayer = Colors.black54;
+  Color leaderboardRowSeparator = Colors.white30;
 
   Color bgColor = Color(0xff0f8b8d);
   Color boxBgColor = Color(0x66000000);
@@ -156,6 +157,9 @@ class _UISizes {
   double dialogWidth = 400;
 
   double shadowWidth = 4;
+
+  double leaderboardRowSeparatorHeight = 1;
+  double leaderboardViewHeight = 400;
 
   EdgeInsets boxOverlayPadding = EdgeInsets.symmetric(
     horizontal: 18,

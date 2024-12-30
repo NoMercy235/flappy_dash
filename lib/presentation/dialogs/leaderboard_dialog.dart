@@ -1,7 +1,9 @@
+import 'package:flappy_dash/presentation/bloc/game/game_cubit.dart';
 import 'package:flappy_dash/presentation/dialogs/app_dialog.dart';
 import 'package:flappy_dash/presentation/widgets/common/trophy.dart';
 import 'package:flappy_dash/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 class LeaderBoardDialog extends StatelessWidget {
@@ -30,20 +32,28 @@ class LeaderBoardDialog extends StatelessWidget {
           children: [
             Header(onPressed: () => Navigator.of(context).pop()),
             SizedBox(
-              height: 400,
-              child: ListView.separated(
-                itemBuilder: (context, index) => LeaderBoardRow(
-                  rank: index + 1,
-                  name: "Player ${index + 1}",
-                  score: 100 * (20 - index),
-                  isMine: index == 0,
-                ),
-                separatorBuilder: (context, index) => Container(
-                  height: 1,
-                  color: Colors.white30,
-                ),
-                itemCount: 20,
-              ),
+              height: Constants.ui.sizes.leaderboardViewHeight,
+              child:
+                  BlocBuilder<GameCubit, GameState>(builder: (context, state) {
+                return ListView.separated(
+                  itemBuilder: (context, index) {
+                    final item =
+                        state.currentLeaderboardRecordList!.records![index];
+                    return LeaderBoardRow(
+                      rank: int.parse(item.rank ?? '9999'),
+                      name: item.username ?? item.ownerId ?? '',
+                      score: int.parse(item.score ?? '0'),
+                      isMine: item.ownerId == state.currentUserId,
+                    );
+                  },
+                  separatorBuilder: (context, index) => Container(
+                    height: Constants.ui.sizes.leaderboardRowSeparatorHeight,
+                    color: Constants.ui.colors.leaderboardRowSeparator,
+                  ),
+                  itemCount:
+                      state.currentLeaderboardRecordList?.records?.length ?? 0,
+                );
+              }),
             )
           ],
         ),

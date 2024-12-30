@@ -23,6 +23,8 @@ class NakamaDataSource {
     return _currentSession;
   }
 
+  String getCurrentUsedId() => _currentSession.userId;
+
   Future<LeaderboardRecordList> getLeaderboard(
     String leaderboardName,
   ) async {

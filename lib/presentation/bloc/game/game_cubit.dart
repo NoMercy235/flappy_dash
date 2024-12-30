@@ -1,15 +1,21 @@
 import 'package:equatable/equatable.dart';
+import 'package:flappy_dash/domain/repositories/game_repository.dart';
 import 'package:flappy_dash/utils/audio_helper.dart';
+import 'package:flappy_dash/utils/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nakama/nakama.dart';
 
 part 'game_state.dart';
 
 class GameCubit extends Cubit<GameState> {
+  final AudioHelper _audioHelper;
+  final GameRepository _gameRepository;
   GameCubit(
     this._audioHelper,
-  ) : super(GameState());
-
-  final AudioHelper _audioHelper;
+    this._gameRepository,
+  ) : super(GameState()) {
+    _init();
+  }
 
   void startPlaying() {
     emit(state.copyWith(
@@ -33,6 +39,22 @@ class GameCubit extends Cubit<GameState> {
 
   void gameOver() {
     _audioHelper.stopBgAudio();
+    _gameRepository.submitScore(
+      Constants.user.leaderboardName,
+      state.currentScore,
+    );
     emit(state.copyWith(newPlayingState: PlayingState.gameOver));
+  }
+
+  void _init() async {
+    final records = await _gameRepository.getLeaderboard(
+      Constants.user.leaderboardName,
+    );
+    final currentUsedId = await _gameRepository.getCurrentUsedId();
+
+    emit(state.copyWith(
+      newLeaderboardRecordList: records,
+      newUserId: currentUsedId,
+    ));
   }
 }
