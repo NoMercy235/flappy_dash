@@ -1,8 +1,27 @@
+import 'package:flappy_dash/presentation/bloc/game/game_cubit.dart';
 import 'package:flappy_dash/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class NicknameDialog extends StatelessWidget {
+class NicknameDialog extends StatefulWidget {
   const NicknameDialog({super.key});
+
+  @override
+  State<NicknameDialog> createState() => _NicknameDialogState();
+}
+
+class _NicknameDialogState extends State<NicknameDialog> {
+  late TextEditingController _textEditingController;
+
+  @override
+  void initState() {
+    super.initState();
+    final username =
+        context.read<GameCubit>().state.currentUserAccount?.user.username ?? '';
+    _textEditingController = TextEditingController(
+      text: username,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +47,9 @@ class NicknameDialog extends StatelessWidget {
             SizedBox(
               width: Constants.ui.sizes.nicknameSaveBtnWidth,
               child: FilledButton.tonal(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pop(_textEditingController.text);
+                },
                 child: const Text('SAVE'),
               ),
             ),
@@ -38,8 +59,15 @@ class NicknameDialog extends StatelessWidget {
     );
   }
 
+  @override
+  void dispose() {
+    _textEditingController.dispose();
+    super.dispose();
+  }
+
   Widget NicknameInput() {
     return TextField(
+      controller: _textEditingController,
       decoration: InputDecoration(
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.black, width: 1.0),

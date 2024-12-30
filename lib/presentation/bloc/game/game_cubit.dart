@@ -46,15 +46,28 @@ class GameCubit extends Cubit<GameState> {
     emit(state.copyWith(newPlayingState: PlayingState.gameOver));
   }
 
+  void changeUsername(String username) async {
+    await _gameRepository.changeUsername(username);
+  }
+
+  void refreshLeaderboard() async {
+    final records = await _gameRepository.getLeaderboard(
+      Constants.user.leaderboardName,
+    );
+    emit(state.copyWith(
+      newLeaderboardRecordList: records,
+    ));
+  }
+
   void _init() async {
     final records = await _gameRepository.getLeaderboard(
       Constants.user.leaderboardName,
     );
-    final currentUsedId = await _gameRepository.getCurrentUsedId();
+    final account = await _gameRepository.getCurrentUserAccount();
 
     emit(state.copyWith(
       newLeaderboardRecordList: records,
-      newUserId: currentUsedId,
+      newUserAccount: account,
     ));
   }
 }

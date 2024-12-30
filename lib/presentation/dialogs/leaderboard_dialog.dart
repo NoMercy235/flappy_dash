@@ -6,8 +6,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
-class LeaderBoardDialog extends StatelessWidget {
+class LeaderBoardDialog extends StatefulWidget {
   const LeaderBoardDialog({super.key});
+
+  @override
+  State<LeaderBoardDialog> createState() => _LeaderBoardDialogState();
+}
+
+class _LeaderBoardDialogState extends State<LeaderBoardDialog> {
+  @override
+  void initState() {
+    context.read<GameCubit>().refreshLeaderboard();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +54,8 @@ class LeaderBoardDialog extends StatelessWidget {
                       rank: int.parse(item.rank ?? '9999'),
                       name: item.username ?? item.ownerId ?? '',
                       score: int.parse(item.score ?? '0'),
-                      isMine: item.ownerId == state.currentUserId,
+                      isMine: item.username ==
+                          (state.currentUserAccount?.user.username ?? ''),
                     );
                   },
                   separatorBuilder: (context, index) => Container(
@@ -151,7 +163,12 @@ class LeaderBoardRow extends StatelessWidget {
         ? Material(
             color: Colors.transparent,
             child: InkWell(
-              onTap: () => AppDialog.showNicknamePicker(context),
+              onTap: () async {
+                final gameCubit = context.read<GameCubit>();
+                final result = await AppDialog.showNicknamePicker(context);
+                if (result == null || result.isEmpty) return;
+                gameCubit.changeUsername(result);
+              },
               child: child,
             ),
           )

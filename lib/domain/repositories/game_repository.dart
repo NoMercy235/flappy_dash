@@ -23,9 +23,9 @@ class GameRepository {
     }
   }
 
-  Future<String> getCurrentUsedId() async {
+  Future<Account> getCurrentUserAccount() async {
     await _initializationCompleter.future;
-    return _nakamaDataSource.getCurrentUsedId();
+    return _nakamaDataSource.getAccount();
   }
 
   Future<LeaderboardRecordList> getLeaderboard(String leaderboardName) async {
@@ -39,5 +39,9 @@ class GameRepository {
   ) async {
     await _initializationCompleter.future;
     return _nakamaDataSource.submitScore(leaderboardName, score);
+  }
+
+  changeUsername(String username) async {
+    await _nakamaDataSource.changeUsername(username);
   }
 }

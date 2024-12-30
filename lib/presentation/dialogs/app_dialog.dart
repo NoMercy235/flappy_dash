@@ -12,9 +12,8 @@ class AppDialog {
     );
   }
 
-  static Future<void> showNicknamePicker(BuildContext context) {
-    print('showing nickname picker');
-    return showDialog(
+  static Future<String?> showNicknamePicker(BuildContext context) {
+    return showDialog<String?>(
       context: context,
       builder: (context) {
         return NicknameDialog();

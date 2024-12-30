@@ -23,7 +23,7 @@ class NakamaDataSource {
     return _currentSession;
   }
 
-  String getCurrentUsedId() => _currentSession.userId;
+  Future<Account> getAccount() => client.getAccount(_currentSession);
 
   Future<LeaderboardRecordList> getLeaderboard(
     String leaderboardName,
@@ -40,6 +40,13 @@ class NakamaDataSource {
       session: _currentSession,
       leaderboardName: leaderboardName,
       score: score,
+    );
+  }
+
+  Future<void> changeUsername(String username) {
+    return client.updateAccount(
+      session: _currentSession,
+      username: username,
     );
   }
 }
