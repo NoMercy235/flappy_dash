@@ -40,9 +40,12 @@ class GameRepository {
     final usersMap = Map.fromEntries(
       users.map((user) => MapEntry(user.id, user)),
     );
+
+    final account = await _nakamaDataSource.getAccount();
     return LeaderboardEntity(
       recordList: recordList,
       userProfiles: usersMap,
+      currentUserId: account.user.id,
     );
   }
 
