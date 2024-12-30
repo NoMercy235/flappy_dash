@@ -38,13 +38,18 @@ class GameCubit extends Cubit<GameState> {
     emit(state.copyWith(newScore: state.currentScore + 1));
   }
 
-  void gameOver() {
+  void gameOver() async {
     _audioHelper.stopBgAudio();
-    _gameRepository.submitScore(
-      Constants.user.leaderboardName,
-      state.currentScore,
-    );
     emit(state.copyWith(newPlayingState: PlayingState.gameOver));
+    try {
+      await _gameRepository.submitScore(
+        Constants.user.leaderboardName,
+        state.currentScore,
+      );
+    } catch (err) {
+      print("failed to upload new score: $err");
+    }
+    await _updateLeaderboard();
   }
 
   void changeDisplayName(String displayName) async {
