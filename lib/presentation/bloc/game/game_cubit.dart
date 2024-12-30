@@ -41,6 +41,11 @@ class GameCubit extends Cubit<GameState> {
   void gameOver() async {
     _audioHelper.stopBgAudio();
     emit(state.copyWith(newPlayingState: PlayingState.gameOver));
+
+    final isBetter = state.currentScore >
+        int.parse(state.currentLeaderboard?.ownerRecord?.score ?? '0');
+    if (!isBetter) return;
+
     try {
       await _gameRepository.submitScore(
         Constants.user.leaderboardName,
