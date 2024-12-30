@@ -3,9 +3,11 @@ import 'package:flappy_dash/domain/extensions/user.dart';
 import 'package:nakama/nakama.dart';
 
 class LeaderboardEntity with EquatableMixin {
+  LeaderboardRecord? get ownerRecord => _recordList.records?.firstOrNull;
+  int get length => _recordList.records?.length ?? 0;
+
   final LeaderboardRecordList _recordList;
   final Map<String, User> _userProfiles;
-  int get length => _recordList.records?.length ?? 0;
 
   (LeaderboardRecord record, String name) operator [](int index) {
     final record = _recordList.records![index];

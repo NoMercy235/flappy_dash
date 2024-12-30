@@ -1,7 +1,9 @@
+import 'package:flappy_dash/presentation/bloc/game/game_cubit.dart';
 import 'package:flappy_dash/presentation/widgets/buttons/menu_btn_base.dart';
 import 'package:flappy_dash/presentation/widgets/common/trophy.dart';
 import 'package:flappy_dash/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BestScoreBtn extends StatelessWidget {
   final VoidCallback onTap;
@@ -34,15 +36,22 @@ class BestScoreBtn extends StatelessWidget {
               fontSize: Constants.ui.fonts.sizeXxs,
             ),
           ),
-          Text(
-            '122',
-            style: TextStyle(
-              color: Constants.ui.colors.secondaryText,
-              fontSize: Constants.ui.fonts.sizeSmall,
-            ),
-          ),
+          ScoreNumber(),
         ],
       ),
     );
+  }
+
+  Widget ScoreNumber() {
+    return BlocBuilder<GameCubit, GameState>(builder: (context, state) {
+      final record = state.currentLeaderboard?.ownerRecord;
+      return Text(
+        record?.score.toString() ?? '-',
+        style: TextStyle(
+          color: Constants.ui.colors.secondaryText,
+          fontSize: Constants.ui.fonts.sizeSmall,
+        ),
+      );
+    });
   }
 }

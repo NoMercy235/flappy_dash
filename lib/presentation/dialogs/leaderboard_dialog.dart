@@ -96,7 +96,7 @@ class _LeaderBoardDialogState extends State<LeaderBoardDialog> {
 }
 
 class LeaderBoardRow extends StatelessWidget {
-  final int rank;
+  final int? rank;
   final String name;
   final int score;
   final bool isMine;
@@ -110,6 +110,8 @@ class LeaderBoardRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final calculatedRank = rank ?? 1;
+
     return RowWrapper(
       context: context,
       child: Container(
@@ -120,7 +122,7 @@ class LeaderBoardRow extends StatelessWidget {
         ),
         child: Row(
           children: [
-            rank <= 3 ? Trophy(rank: rank) : NormalScore(),
+            calculatedRank <= 3 ? Trophy(rank: calculatedRank) : NormalScore(),
             Padding(
               padding: EdgeInsets.only(left: Constants.ui.paddingXxs),
               child: Text(
