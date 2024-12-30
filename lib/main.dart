@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
         getIt.get<AudioHelper>(),
         getIt.get<GameRepository>(),
       ),
+      lazy: false,
       child: MaterialApp(
         title: 'Flappy Dash',
         home: SplashPage(),
