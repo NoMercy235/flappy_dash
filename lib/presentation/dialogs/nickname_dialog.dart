@@ -1,3 +1,4 @@
+import 'package:flappy_dash/domain/extensions/user.dart';
 import 'package:flappy_dash/presentation/bloc/game/game_cubit.dart';
 import 'package:flappy_dash/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -16,11 +17,9 @@ class _NicknameDialogState extends State<NicknameDialog> {
   @override
   void initState() {
     super.initState();
-    final username =
-        context.read<GameCubit>().state.currentUserAccount?.user.username ?? '';
-    _textEditingController = TextEditingController(
-      text: username,
-    );
+    final name =
+        context.read<GameCubit>().state.currentUserAccount?.user.showingName;
+    _textEditingController = TextEditingController(text: name);
   }
 
   @override
@@ -89,7 +88,7 @@ class _NicknameDialogState extends State<NicknameDialog> {
       style: TextStyle(
         color: Constants.ui.colors.whiteText,
       ),
-      maxLength: 12,
+      maxLength: Constants.user.maxDisplayNameLength,
     );
   }
 

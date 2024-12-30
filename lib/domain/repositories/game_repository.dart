@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flappy_dash/data/local/device_data_source.dart';
 import 'package:flappy_dash/data/remote/nakama_data_source.dart';
+import 'package:flappy_dash/domain/entities/leaderboard_entity.dart';
+import 'package:flappy_dash/utils/constants.dart';
 import 'package:nakama/nakama.dart';
 
 class GameRepository {
@@ -28,9 +30,20 @@ class GameRepository {
     return _nakamaDataSource.getAccount();
   }
 
-  Future<LeaderboardRecordList> getLeaderboard(String leaderboardName) async {
+  Future<LeaderboardEntity> getLeaderboard(String leaderboardName) async {
     await _initializationCompleter.future;
-    return _nakamaDataSource.getLeaderboard(leaderboardName);
+    final recordList =
+        await _nakamaDataSource.getLeaderboard(Constants.user.leaderboardName);
+    final ids =
+        recordList.records?.map((record) => record.ownerId!).toList() ?? [];
+    final users = await _nakamaDataSource.getUsers(ids);
+    final usersMap = Map.fromEntries(
+      users.map((user) => MapEntry(user.id, user)),
+    );
+    return LeaderboardEntity(
+      recordList: recordList,
+      userProfiles: usersMap,
+    );
   }
 
   Future<LeaderboardRecord> submitScore(
@@ -41,7 +54,7 @@ class GameRepository {
     return _nakamaDataSource.submitScore(leaderboardName, score);
   }
 
-  changeUsername(String username) async {
-    await _nakamaDataSource.changeUsername(username);
+  changeDisplayName(String displayName) async {
+    await _nakamaDataSource.changeDisplayName(displayName);
   }
 }

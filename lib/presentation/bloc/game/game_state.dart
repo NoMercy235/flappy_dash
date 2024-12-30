@@ -3,12 +3,12 @@ part of 'game_cubit.dart';
 class GameState with EquatableMixin {
   final int currentScore;
   final PlayingState currentPlayingState;
-  final LeaderboardRecordList? currentLeaderboardRecordList;
+  final LeaderboardEntity? currentLeaderboard;
   final Account? currentUserAccount;
   const GameState({
     this.currentScore = 0,
     this.currentPlayingState = PlayingState.none,
-    this.currentLeaderboardRecordList,
+    this.currentLeaderboard,
     this.currentUserAccount,
   });
 
@@ -16,21 +16,20 @@ class GameState with EquatableMixin {
   List<Object?> get props => [
         currentScore,
         currentPlayingState,
-        currentLeaderboardRecordList ?? [],
+        currentLeaderboard ?? [],
         currentUserAccount,
       ];
 
   GameState copyWith({
     int? newScore,
     PlayingState? newPlayingState,
-    LeaderboardRecordList? newLeaderboardRecordList,
+    LeaderboardEntity? newLeaderboard,
     Account? newUserAccount,
   }) =>
       GameState(
         currentScore: newScore ?? currentScore,
         currentPlayingState: newPlayingState ?? currentPlayingState,
-        currentLeaderboardRecordList:
-            newLeaderboardRecordList ?? currentLeaderboardRecordList,
+        currentLeaderboard: newLeaderboard ?? currentLeaderboard,
         currentUserAccount: newUserAccount ?? currentUserAccount,
       );
 }

@@ -133,10 +133,11 @@ class _Animations {
 }
 
 class _User {
+  int maxDisplayNameLength = 12;
+
   String host = Platform.environment['NAKAMA_SERVER_HOST'] ?? '127.0.0.1';
 
   String deviceId = 'test-device-id';
-  String username = 'NoMercy235_Test';
 
   String serverKey = Platform.environment['NAKAMA_SERVER_KEY'] ?? 'defaultkey';
 

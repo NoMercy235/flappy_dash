@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flappy_dash/domain/entities/leaderboard_entity.dart';
 import 'package:flappy_dash/domain/repositories/game_repository.dart';
 import 'package:flappy_dash/utils/audio_helper.dart';
 import 'package:flappy_dash/utils/constants.dart';
@@ -46,28 +47,33 @@ class GameCubit extends Cubit<GameState> {
     emit(state.copyWith(newPlayingState: PlayingState.gameOver));
   }
 
-  void changeUsername(String username) async {
-    await _gameRepository.changeUsername(username);
+  void changeDisplayName(String displayName) async {
+    await _gameRepository.changeDisplayName(displayName);
+    await Future.delayed(const Duration(seconds: 1));
+    final account = await _gameRepository.getCurrentUserAccount();
+    emit(state.copyWith(
+      newUserAccount: account,
+    ));
   }
 
   void refreshLeaderboard() async {
-    final records = await _gameRepository.getLeaderboard(
-      Constants.user.leaderboardName,
-    );
-    emit(state.copyWith(
-      newLeaderboardRecordList: records,
-    ));
+    await _updateLeaderboard();
   }
 
   void _init() async {
-    final records = await _gameRepository.getLeaderboard(
+    await _updateLeaderboard();
+    await _refreshCurrentUserAccount();
+  }
+
+  Future<void> _updateLeaderboard() async {
+    final leaderboard = await _gameRepository.getLeaderboard(
       Constants.user.leaderboardName,
     );
-    final account = await _gameRepository.getCurrentUserAccount();
+    emit(state.copyWith(newLeaderboard: leaderboard));
+  }
 
-    emit(state.copyWith(
-      newLeaderboardRecordList: records,
-      newUserAccount: account,
-    ));
+  Future<void> _refreshCurrentUserAccount() async {
+    final account = await _gameRepository.getCurrentUserAccount();
+    emit(state.copyWith(newUserAccount: account));
   }
 }

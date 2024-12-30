@@ -48,22 +48,19 @@ class _LeaderBoardDialogState extends State<LeaderBoardDialog> {
                   BlocBuilder<GameCubit, GameState>(builder: (context, state) {
                 return ListView.separated(
                   itemBuilder: (context, index) {
-                    final item =
-                        state.currentLeaderboardRecordList!.records![index];
+                    final (item, name) = state.currentLeaderboard![index];
                     return LeaderBoardRow(
                       rank: int.parse(item.rank ?? '9999'),
-                      name: item.username ?? item.ownerId ?? '',
+                      name: name,
                       score: int.parse(item.score ?? '0'),
-                      isMine: item.username ==
-                          (state.currentUserAccount?.user.username ?? ''),
+                      isMine: item.ownerId == state.currentUserAccount?.user.id,
                     );
                   },
                   separatorBuilder: (context, index) => Container(
                     height: Constants.ui.sizes.leaderboardRowSeparatorHeight,
                     color: Constants.ui.colors.leaderboardRowSeparator,
                   ),
-                  itemCount:
-                      state.currentLeaderboardRecordList?.records?.length ?? 0,
+                  itemCount: state.currentLeaderboard?.length ?? 0,
                 );
               }),
             )
@@ -167,7 +164,7 @@ class LeaderBoardRow extends StatelessWidget {
                 final gameCubit = context.read<GameCubit>();
                 final result = await AppDialog.showNicknamePicker(context);
                 if (result == null || result.isEmpty) return;
-                gameCubit.changeUsername(result);
+                gameCubit.changeDisplayName(result);
               },
               child: child,
             ),
