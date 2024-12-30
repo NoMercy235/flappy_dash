@@ -1,5 +1,5 @@
 import 'package:flappy_dash/presentation/bloc/game/game_cubit.dart';
-import 'package:flappy_dash/presentation/pages/main_page.dart';
+import 'package:flappy_dash/presentation/pages/splash/splash_page.dart';
 import 'package:flappy_dash/utils/audio_helper.dart';
 import 'package:flappy_dash/utils/constants.dart';
 import 'package:flappy_dash/utils/service_locator.dart';
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       create: (context) => GameCubit(getIt.get<AudioHelper>()),
       child: MaterialApp(
         title: 'Flappy Dash',
-        home: MainPage(),
+        home: SplashPage(),
         theme: ThemeData(fontFamily: Constants.ui.fonts.mainFont),
       ),
     );

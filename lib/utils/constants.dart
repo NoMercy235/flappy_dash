@@ -1,5 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
+import 'dart:io';
+
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 
@@ -58,6 +60,8 @@ class _Files {
   String layer6Bushes = 'background/layer6-bushes.png';
   String layer7Bushes = 'background/layer7-bushes.png';
 
+  String splash = 'assets/images/dash.png';
+
   String icProfile = 'assets/icons/ic_profile.svg';
   String icTrophy = 'assets/icons/ic_trophy.svg';
   String icClose = 'assets/icons/ic_close.svg';
@@ -101,6 +105,7 @@ class _Fonts {
 }
 
 class _Colors {
+  Color splashText = Color(0xFF25165F);
   Color mainText = Color(0Xff00fbff);
   Color secondaryText = Color(0xffffca00);
   Color whiteTextHighlighted = Color(0xfff1f1f1);
@@ -127,19 +132,21 @@ class _Animations {
 }
 
 class _User {
-  String host = '212.237.26.52';
+  String host = Platform.environment['NAKAMA_SERVER_HOST'] ?? '127.0.0.1';
 
   String deviceId = 'test-device-id';
   String username = 'NoMercy235_Test';
 
-  String serverKey = 'defaultkey';
+  String serverKey = Platform.environment['NAKAMA_SERVER_KEY'] ?? 'defaultkey';
 
+  String leaderboardName = 'main_leaderboard';
   String groupName = 'Flutter devs';
 }
 
 class _UISizes {
   double iconHeight = 32;
   double iconWidth = 32;
+  double splashIconSize = 124;
 
   double spacingSmall = 16;
   double spacingNormal = 24;
