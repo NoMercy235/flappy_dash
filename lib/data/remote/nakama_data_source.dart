@@ -11,8 +11,10 @@ class NakamaDataSource {
   );
 
   late Session _currentSession;
+  late String _deviceId;
 
   Future<Session> initSession(String deviceId) async {
+    _deviceId = deviceId;
     _currentSession = await client.authenticateDevice(
       deviceId: deviceId,
     );
@@ -32,6 +34,7 @@ class NakamaDataSource {
   Future<LeaderboardRecordList> getLeaderboard(
     String leaderboardName,
   ) async {
+    await _ensureSession();
     return await client.listLeaderboardRecords(
       session: _currentSession,
       leaderboardName: leaderboardName,
@@ -40,6 +43,7 @@ class NakamaDataSource {
 
   Future<LeaderboardRecord> submitScore(
       String leaderboardName, int score) async {
+    await _ensureSession();
     return client.writeLeaderboardRecord(
       session: _currentSession,
       leaderboardName: leaderboardName,
@@ -47,7 +51,8 @@ class NakamaDataSource {
     );
   }
 
-  Future<void> changeDisplayName(String displayName) {
+  Future<void> changeDisplayName(String displayName) async {
+    await _ensureSession();
     return client.updateAccount(
       session: _currentSession,
       displayName: displayName,
@@ -56,11 +61,21 @@ class NakamaDataSource {
 
   Future<LeaderboardRecordList> listLeaderboardRecordsAroundOwner(
     String leaderboardName,
-  ) {
+  ) async {
+    await _ensureSession();
     return client.listLeaderboardRecordsAroundOwner(
       session: _currentSession,
       ownerId: _currentSession.userId,
       leaderboardName: leaderboardName,
     );
+  }
+
+  Future<void> _ensureSession() async {
+    if (_currentSession == null || _currentSession!.isExpired) {
+      print("Refreshing the session");
+      _currentSession = await client.sessionRefresh(
+        session: _currentSession,
+      );
+    }
   }
 }
