@@ -4,7 +4,7 @@ import 'package:nakama/nakama.dart';
 class NakamaDataSource {
   final client = getNakamaClient(
     host: Constants.user.host,
-    ssl: false,
+    ssl: !Constants.isDebugMode,
     serverKey: Constants.user.serverKey,
     grpcPort: 7349,
     httpPort: 7350,

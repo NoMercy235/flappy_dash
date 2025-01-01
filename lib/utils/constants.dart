@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 
 class Constants {
   // Debug
-  static bool isDebugMode = false;
+  static bool isDebugMode = kDebugMode;
   static bool suspendDash = false;
   static bool isGodMode = false;
   static double cameraZoomInDebug = 0.65;
@@ -137,7 +137,9 @@ class _User {
   int maxDisplayNameLength = 12;
 
   String host = kIsWeb
-      ? '212.237.26.52'
+      ? kDebugMode
+          ? '127.0.0.1'
+          : 'rigamo2.xyz'
       : Platform.environment['NAKAMA_SERVER_HOST'] ?? '127.0.0.1';
 
   String deviceId = 'test-device-id';
