@@ -9,7 +9,7 @@
             "request": "launch",
             "type": "dart",
             "env": {
-                "NAKAMA_SERVER_HOST": "212.237.26.52",
+                "NAKAMA_SERVER_HOST": "rigamo2.xyz",
                 "NAKAMA_SERVER_KEY": "defaultkey"
             },
         },
@@ -19,7 +19,7 @@
             "type": "dart",
             "flutterMode": "profile",
             "env": {
-                "NAKAMA_SERVER_HOST": "212.237.26.52",
+                "NAKAMA_SERVER_HOST": "rigamo2.xyz",
                 "NAKAMA_SERVER_KEY": "defaultkey"
             },
         },
@@ -29,7 +29,7 @@
             "type": "dart",
             "flutterMode": "release",
             "env": {
-                "NAKAMA_SERVER_HOST": "212.237.26.52",
+                "NAKAMA_SERVER_HOST": "rigamo2.xyz",
                 "NAKAMA_SERVER_KEY": "defaultkey"
             },
         },

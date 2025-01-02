@@ -6,8 +6,8 @@ class NakamaDataSource {
     host: Constants.user.host,
     ssl: !Constants.isDebugMode,
     serverKey: Constants.user.serverKey,
-    grpcPort: 7349,
-    httpPort: 7350,
+    grpcPort: Constants.isDebugMode ? 7349 : 7359,
+    httpPort: Constants.isDebugMode ? 7350 : 7360,
   );
 
   late Session _currentSession;
