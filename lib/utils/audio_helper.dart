@@ -16,6 +16,11 @@ class AudioHelper {
   }
 
   void playBgAudio() async {
+    if (_bgSoundHandle != null) {
+      print("Background music already playing! Should not see this message");
+      return;
+    }
+
     _bgSoundHandle = await _soLoud.play(_bgSource, looping: true);
     _soLoud.setProtectVoice(_bgSoundHandle!, true);
 

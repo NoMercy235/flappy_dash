@@ -137,7 +137,7 @@ class _User {
   int maxDisplayNameLength = 12;
 
   String host = kIsWeb
-      ? kDebugMode
+      ? Constants.isDebugMode
           ? '127.0.0.1'
           : 'rigamo2.xyz'
       : Platform.environment['NAKAMA_SERVER_HOST'] ?? '127.0.0.1';
